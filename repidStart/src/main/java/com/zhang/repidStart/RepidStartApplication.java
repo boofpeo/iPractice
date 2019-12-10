@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * 项目专用测试
+ * 项目专用测试分支project
  */
 @SpringBootApplication
 public class RepidStartApplication {
