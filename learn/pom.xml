@@ -7,7 +7,9 @@
 		<module>myjava8</module>
         <module>acPractice</module>
 		<module>spring-redis</module>
-	</modules>
+        <module>spring-jsp</module>
+        <module>spring-jsp-practice</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
