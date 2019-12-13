@@ -9,6 +9,8 @@
 		<module>spring-redis</module>
         <module>spring-jsp</module>
         <module>spring-jsp-practice</module>
+        <module>spring-jsp-jdbc-mybatis</module>
+        <module>spring-mybatis</module>
     </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
