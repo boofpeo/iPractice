@@ -39,6 +39,8 @@
         <!--  <mapper url="file:///Users/zhangyu/Desktop/work/practice_space/learn/iPractice/learn/spring-jsp-jdbc-mybatis/src/main/resources/mapper/UserMapper.xml"/>
        -->
         <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mybatis/mappers/UserTableMapper.xml"/>
+        <mapper class="com.zhang.spring.jsp.annotation.UserAnnotationMapper"/>
     </mappers>
 
 </configuration>

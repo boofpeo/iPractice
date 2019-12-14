@@ -17,6 +17,8 @@ public class UserMain {
 
     public static void main(String[] args) throws Exception {
 
+        System.out.println(System.getProperty("user.dir") + "/spring-jsp-jdbc-mybatis");
+
         ResourceLoader loader = new DefaultResourceLoader();
 
         Resource resource = loader.getResource("classpath:/mybatis/mybatis-config.xml");
@@ -37,6 +39,6 @@ public class UserMain {
             System.out.println(entity);
         }
 
-
+        sqlSession.close();
     }
 }
