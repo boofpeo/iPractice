@@ -20,7 +20,7 @@ import java.time.Duration;
  * @date 2019/8/7 15:15
  */
 
-@Configuration
+//@Configuration
 @PropertySource(value = "classpath:redis.properties")
 public class RedisProperties {
 

@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @Description: TODO
  * @date 2019/8/7 14:46
  */
-@Configuration
+//@Configuration
 public class RedisUtil {
 
     @Autowired
