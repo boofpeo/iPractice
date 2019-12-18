@@ -11,6 +11,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 
@@ -20,8 +21,8 @@ import java.time.Duration;
  * @date 2019/8/7 15:15
  */
 
-//@Configuration
-@PropertySource(value = "classpath:redis.properties")
+@Configuration(proxyBeanMethods = false)
+@PropertySource(value = {"classpath:/redis/redis.properties"}, encoding = "UTF-8")
 public class RedisProperties {
 
     @Value("${redis.hostName}")
@@ -40,7 +41,7 @@ public class RedisProperties {
     private Integer maxIdle;
 
     @Value("${redis.timeout}")
-    private Integer timeout;
+    private Long timeout;
 
     @Value("${redis.maxTotal}")
     private Integer maxTotal;
@@ -63,6 +64,14 @@ public class RedisProperties {
     @Value("${redis.testWhileIdle}")
     private boolean testWhileIdle;
 
+    /**
+     * Whether to enable SSL support.
+     */
+    @Value("${redis.ssl}")
+    private boolean ssl = false;
+
+    private String clientName;
+
 //  手工创建Jedis的连接工厂，并且注入到Spring中
 
     /**
@@ -71,7 +80,7 @@ public class RedisProperties {
      * 配置redis客户端的工厂方法
      */
     @Bean
-    public JedisConnectionFactory getJedisConnectionFactory() {
+    public RedisConnectionFactory redisConnectionFactory() {
 //      创建一个redis的config配置
         System.out.println("创建一个redisConfig");
         RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
@@ -86,20 +95,20 @@ public class RedisProperties {
 //      获得客户端对象
 //        JedisClientConfiguration clientConfig = clientBuilder.build();
 //      创建Jedis连接工厂
-        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisConfig,
-                JedisClientConfiguration.builder().connectTimeout(Duration.ofMillis(timeout)).build());
+        JedisClientConfiguration clientConfiguration = getJedisClientConfiguration();
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisConfig,clientConfiguration);
         return jedisConnectionFactory;
     }
 
 
     @Bean
-    public RedisSerializer getFastJson2JsonRedisSerializer(){
+    public RedisSerializer getFastJson2JsonRedisSerializer() {
         System.out.println("向spring注入json方法");
         return new FastJson2JsonRedisSerializer<Object>(Object.class);
     }
 
     @Bean
-    public RedisTemplate getRedisTemp(RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         System.out.println("创建配置初始化Redis，或者redisTemp");
         RedisTemplate redisTemplate = new RedisTemplate();
         //如果不配置Serializer，那么存储的时候缺省使用String，如果用User类型存储，那么会提示错误User can't cast to String！
@@ -115,5 +124,26 @@ public class RedisProperties {
 
         return redisTemplate;
     }
+
+    private JedisClientConfiguration.JedisClientConfigurationBuilder applyProperties(JedisClientConfiguration.JedisClientConfigurationBuilder builder) {
+        if (this.ssl) {
+            builder.useSsl();
+        }
+        if (this.timeout != null) {
+            Duration dTimeout = Duration.ofMillis(timeout);
+            builder.readTimeout(dTimeout).connectTimeout(dTimeout);
+        }
+        if (StringUtils.hasText(this.clientName)) {
+            builder.clientName(this.clientName);
+        }
+        return builder;
+    }
+
+    private JedisClientConfiguration getJedisClientConfiguration() {
+        JedisClientConfiguration.JedisClientConfigurationBuilder builder =
+                applyProperties(JedisClientConfiguration.builder());
+        return builder.build();
+    }
+
 
 }
