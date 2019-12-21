@@ -1,6 +1,5 @@
 package practice.equals;
 
-import javax.swing.plaf.synth.SynthScrollBarUI;
 import java.util.List;
 
 public class EqualsMain {
