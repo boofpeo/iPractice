@@ -20,5 +20,12 @@ public class EqualsEntity extends EqualsAbstractEntity {
         this.skip = skip;
     }
 
-
+    public static void main(String[] args) {
+        String businDate = "20191016";
+        StringBuffer stringBuffer = new StringBuffer(businDate);
+        stringBuffer.insert(4,"-");
+        System.out.println(stringBuffer.toString());
+        stringBuffer.insert(7,"-");
+        System.out.println(stringBuffer.toString());
+    }
 }
