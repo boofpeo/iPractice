@@ -3,21 +3,34 @@ package practice.event;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
+/**
+ * 发布和订阅相关
+ */
 public class Event {
 
 
     public static void main(String[] args) {
 
         //创建上下文
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+    //    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 
         //增加监听器
-        context.addApplicationListener(new MyApplicationListener());
+     //   context.addApplicationListener(new MyApplicationListener());
+//        context.addApplicationListener(new MyApplicationListener());
+
+        //bean注册
+     //   context.register(MyApplicationListener.class);
 
         //启动上下文
-        context.refresh();
+    //    context.refresh();
 
+
+
+        //-------------另一种方式
+
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyApplicationListener.class);
 
         context.publishEvent(new MyApplicationEvent("111111这是里是事件"));
 
@@ -27,6 +40,7 @@ public class Event {
 
 
     //自定义监听
+//    @Component
     private static class MyApplicationListener implements ApplicationListener<MyApplicationEvent> {
 
 
