@@ -45,3 +45,9 @@ ReentrantLock操作较为复杂，但是因为可以手动控制加锁和解锁�
 
 锁相关： https://www.cnblogs.com/takumicx/p/9338983.html
 优质的博客
+
+
+
+transient :
+     被该字段修饰的，不参与序列化  java.io.Serializable       -- Synchronized synchronized Synchronized
+
